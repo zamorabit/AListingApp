@@ -1,0 +1,5 @@
+<resources>
+    <string name="list_app_app_name">List App</string>
+    <string name="list_app_network_error">Try again please...</string>
+    <string name="list_app_ok">Ok</string>
+</resources>
