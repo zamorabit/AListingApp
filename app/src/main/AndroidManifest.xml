@@ -1,23 +1,26 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.azamora.listapp">
+    package="com.azamora.listapp">
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-            android:name=".App"
-            android:allowBackup="true"
-            android:label="@string/list_app_app_name"
-            android:icon="@mipmap/ic_launcher"
-            android:roundIcon="@mipmap/ic_launcher_round"
-            android:supportsRtl="true"
-            android:usesCleartextTraffic="true"
-            android:theme="@style/list_app_AppTheme">
+        android:name=".App"
+        android:allowBackup="true"
+        android:label="@string/list_app_app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
+        android:theme="@style/list_app_AppTheme">
 
-    <activity android:name=".view.activities.MainActivity">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".view.activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-    </activity>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".view.activities.DescriptionActivity"/>
+
     </application>
 </manifest>

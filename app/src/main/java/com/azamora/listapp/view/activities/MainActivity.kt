@@ -13,6 +13,7 @@ import com.azamora.listapp.view.adapter.LaptopsAdapter
 import com.azamora.listapp.viewmodel.LaptopViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.list_app_main_activity.*
+import org.jetbrains.anko.intentFor
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun bringData() {
+    private fun bringData() {
         showLoading()
         viewModel.getLatopsList().observe(this, Observer { laptops ->
             hideLoading()
@@ -44,8 +45,12 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    fun displayDescription(laptop: LaptopModel) {
-        // TODO:
+    private fun displayDescription(laptop: LaptopModel) {
+        startActivity(intentFor<DescriptionActivity>(
+                "title" to laptop.title,
+                "description" to laptop.description,
+                "image" to laptop.image
+        ))
     }
 
     private fun showMessage() {
