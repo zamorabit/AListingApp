@@ -14,16 +14,17 @@ import com.azamora.listapp.viewmodel.LaptopViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.list_app_main_activity.*
 import org.jetbrains.anko.intentFor
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: LaptopViewModel
+    val viewModel : LaptopViewModel by viewModel()
 
     private var adapter = LaptopsAdapter(mutableListOf()) { laptop -> displayDescription(laptop) }
 
     override fun onStart() {
         super.onStart()
-        viewModel = ViewModelProviders.of(this).get(LaptopViewModel::class.java)
+        //viewModel = ViewModelProviders.of(this).get(LaptopViewModel::class.java)
         bringData()
     }
 

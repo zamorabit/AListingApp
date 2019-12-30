@@ -65,6 +65,11 @@ dependencies {
     def ciceroneVersion = "2.1.0"
     implementation "ru.terrakok.cicerone:cicerone:$ciceroneVersion"
 
+    // Koin for Android and ViewModel features
+    def koin_version = '2.0.1'
+    implementation "org.koin:koin-android:$koin_version"
+    implementation "org.koin:koin-android-viewmodel:$koin_version"
+
     implementation "androidx.lifecycle:lifecycle-extensions:2.1.0-alpha02"
     implementation "androidx.lifecycle:lifecycle-viewmodel:2.1.0-alpha02"
 }

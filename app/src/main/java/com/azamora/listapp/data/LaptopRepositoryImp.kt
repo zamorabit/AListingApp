@@ -9,9 +9,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class LaptopRepositoryIml: LaptopRepository {
+class LaptopRepositoryIml(val retrofitClient: RetrofitClient): LaptopRepository {
 
-    private val retrofitClient = RetrofitClient()
 
     override fun getLaptopsList(): LiveData<List<LaptopModel>?> {
         val data = MutableLiveData<List<LaptopModel>?>()
