@@ -6,8 +6,8 @@
         android:name=".App"
         android:allowBackup="true"
         android:label="@string/list_app_app_name"
-        android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:icon="@mipmap/list_app_ic_launcher"
+        android:roundIcon="@mipmap/list_app_ic_launcher_round"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/list_app_AppTheme">
