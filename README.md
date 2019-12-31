@@ -1,6 +1,6 @@
 # Description
 
-A simple example of LiveData MVVM architecture. 
+A simple example of LiveData MVVM architecture. Using koin for dependencies injection 
 
 # Images, captures:
 
