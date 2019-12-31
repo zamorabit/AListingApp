@@ -3,6 +3,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -12,7 +13,7 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/list_app_AppTheme">
-
+        <uses-library android:name="org.apache.http.legacy" android:required="false" />
         <activity android:name=".view.activities.MainActivity">
         </activity>
 
@@ -25,6 +26,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyAkh5-X7jPfCSke_lAlfHQzF9YGrRCqASs"/>
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="${googleApiKey}"/>
     </application>
 </manifest>

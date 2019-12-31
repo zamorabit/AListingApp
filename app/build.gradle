@@ -6,6 +6,8 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+def googleMapsApiKey = System.getenv("ANDROID_GOOGLE_MAPS_API_KEY") != null ? System.getenv("ANDROID_GOOGLE_MAPS_API_KEY") : ""
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -15,6 +17,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders = [googleApiKey: googleMapsApiKey]
     }
     resourcePrefix 'list_app_'
     buildTypes {
