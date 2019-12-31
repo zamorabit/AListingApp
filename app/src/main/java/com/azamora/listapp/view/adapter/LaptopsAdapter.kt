@@ -11,7 +11,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.list_app_laptop_item.view.*
 
 class LaptopsAdapter(private val laptops: MutableList<LaptopModel>,
-private var listener: (LaptopModel) -> Unit) : RecyclerView.Adapter<LaptopsAdapter.LaptopHolder>() {
+                     private var listener: (LaptopModel) -> Unit) : RecyclerView.Adapter<LaptopsAdapter.LaptopHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LaptopHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.list_app_laptop_item, parent, false)

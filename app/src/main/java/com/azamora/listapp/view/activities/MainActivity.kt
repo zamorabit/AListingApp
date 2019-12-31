@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.azamora.listapp.R
 import com.azamora.listapp.action
 import com.azamora.listapp.data.model.LaptopModel
@@ -24,7 +23,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        //viewModel = ViewModelProviders.of(this).get(LaptopViewModel::class.java)
         bringData()
     }
 

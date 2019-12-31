@@ -70,6 +70,10 @@ dependencies {
     implementation "org.koin:koin-android:$koin_version"
     implementation "org.koin:koin-android-viewmodel:$koin_version"
 
+    def maps_version = '11.8.0'
+    implementation "com.google.android.gms:play-services-maps:$maps_version"
+    implementation "com.google.android.gms:play-services-location:$maps_version"
+
     implementation "androidx.lifecycle:lifecycle-extensions:2.1.0-alpha02"
     implementation "androidx.lifecycle:lifecycle-viewmodel:2.1.0-alpha02"
 }
