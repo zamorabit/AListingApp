@@ -35,7 +35,7 @@ class LaptopsAdapter(private val laptops: MutableList<LaptopModel>,
         fun bind(laptop: LaptopModel, position: Int) = with(view) {
             titleTextView.text = laptop.title
             shortDescriptionTextView.text = laptop.description
-            view.setOnClickListener { listener(laptops?.get(position)) }
+            view.setOnClickListener { listener(laptops[position]) }
             when (laptop.image) {
                 null -> imageView.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.list_app_placeholder, null))
                 else -> Picasso.get().load(laptop.image).placeholder(R.drawable.list_app_placeholder).into(imageView)
