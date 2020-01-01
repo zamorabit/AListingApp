@@ -1,26 +1,31 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.azamora.listapp">
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
 
     <application
         android:name=".App"
         android:allowBackup="true"
         android:label="@string/list_app_app_name"
-        android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:icon="@mipmap/list_app_ic_launcher"
+        android:roundIcon="@mipmap/list_app_ic_launcher_round"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/list_app_AppTheme">
-
+        <uses-library android:name="org.apache.http.legacy" android:required="false" />
         <activity android:name=".view.activities.MainActivity">
+        </activity>
+
+        <activity android:name=".view.activities.DescriptionActivity"/>
+        <activity android:name=".view.activities.MapActivity" >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".view.activities.DescriptionActivity"/>
-
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="${googleApiKey}"/>
     </application>
 </manifest>

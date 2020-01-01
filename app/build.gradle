@@ -6,6 +6,8 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+def googleMapsApiKey = System.getenv("ANDROID_GOOGLE_MAPS_API_KEY") != null ? System.getenv("ANDROID_GOOGLE_MAPS_API_KEY") : ""
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -15,6 +17,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders = [googleApiKey: googleMapsApiKey]
     }
     resourcePrefix 'list_app_'
     buildTypes {
@@ -26,20 +29,30 @@ android {
     dataBinding {
         enabled = true
     }
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+    useLibrary 'android.test.runner'
+    useLibrary 'android.test.base'
+    useLibrary 'android.test.mock'
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta4'
     testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:core:1.3.0-alpha03'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
 
     testImplementation 'com.nhaarman:mockito-kotlin-kt1.1:1.5.0'
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    implementation 'androidx.exifinterface:exifinterface:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.1.0-alpha02'
+    implementation 'androidx.exifinterface:exifinterface:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0-alpha01'
 
     //Retrofit
     def retrofitVersion = "2.4.0"
@@ -50,10 +63,9 @@ dependencies {
     def picassoVersion = "2.71828"
     implementation "com.squareup.picasso:picasso:$picassoVersion"
 
-    implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha02'
+    implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha01'
 
-    def materialVersion = "1.1.0-alpha03"
-    implementation "com.google.android.material:material:$materialVersion"
+    def materialVersion = "1.2.0-alpha03"
     implementation "com.google.android.material:material:$materialVersion"
 
     //Anko
@@ -70,6 +82,11 @@ dependencies {
     implementation "org.koin:koin-android:$koin_version"
     implementation "org.koin:koin-android-viewmodel:$koin_version"
 
-    implementation "androidx.lifecycle:lifecycle-extensions:2.1.0-alpha02"
-    implementation "androidx.lifecycle:lifecycle-viewmodel:2.1.0-alpha02"
+    def maps_version = '11.8.0'
+    implementation "com.google.android.gms:play-services-maps:$maps_version"
+    implementation "com.google.android.gms:play-services-location:$maps_version"
+
+    def lifecycleExtendions_version = '2.2.0-rc03'
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleExtendions_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycleExtendions_version"
 }
