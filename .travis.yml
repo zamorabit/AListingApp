@@ -59,7 +59,7 @@ before_script:
   - adb shell input keyevent 82
 
 script:
-  - ./gradlew clean testRelease
-  - ./gradlew connectedAndroidTest
-  - ./gradlew checkstyle lintRelease
-  - ./gradlew ktlint
+  - ./gradlew clean build
+  - ./gradlew connectedCheck
+  - ./gradlew testRelease
+
