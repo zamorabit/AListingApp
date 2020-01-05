@@ -7,6 +7,7 @@ import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -19,6 +20,7 @@ import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlin.properties.Delegates
 
 class MapActivity : AppCompatActivity(), OnMapReadyCallback,
         GoogleMap.OnMarkerClickListener {
@@ -29,63 +31,39 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
         private const val REQUEST_CHECK_SETTINGS = 2
     }
     private lateinit var map: GoogleMap
-    private lateinit var lastLocation: Location
+    private var lastLocation: Location by Delegates.observable(Location("")) { _, _, newValue ->
+        val latLng = newValue.toLatLang()
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12f))
+        placeMarkerOnMap(latLng)
+
+    }
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
-    private lateinit var locationCallback: LocationCallback
-    // 2
-    private lateinit var locationRequest: LocationRequest
-    private var locationUpdateState = false
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.list_app_map_activity)
-
-        val mapFragment = supportFragmentManager
-                .findFragmentById(R.id.list_app_map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-
-        locationCallback = object : LocationCallback() {
+    //private lateinit var locationCallback: LocationCallback
+    private val locationCallback: LocationCallback by lazy {
+        object : LocationCallback() {
             override fun onLocationResult(p0: LocationResult) {
                 super.onLocationResult(p0)
                 lastLocation = p0.lastLocation
-                placeMarkerOnMap(LatLng(lastLocation.latitude, lastLocation.longitude))
             }
         }
-        createLocationRequest()
     }
 
-    @SuppressLint("MissingPermission")
-    override fun onMapReady(googleMap: GoogleMap) {
-        map = googleMap
-        map.uiSettings.isZoomControlsEnabled = true
-        map.setOnMarkerClickListener(this)
-        map.mapType = GoogleMap.MAP_TYPE_NORMAL
-        //map.isMyLocationEnabled = true
-        fusedLocationClient.lastLocation.addOnSuccessListener(this) { location ->
-            if (location != null) {
-                lastLocation = location
-                val currentLatLng = LatLng(location.latitude, location.longitude)
-                map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
-            }
-        }
-    }
-    private fun createLocationRequest() {
-        // 1
-        locationRequest = LocationRequest()
+    // 2
+    private val locationRequest: LocationRequest by lazy {
+        val internalLocationRequest = LocationRequest()
         // 2
-        locationRequest.interval = 10000
+        internalLocationRequest.interval = 10000
         // 3
-        locationRequest.fastestInterval = 5000
-        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        internalLocationRequest.fastestInterval = 5000
+        internalLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
 
         val builder = LocationSettingsRequest.Builder()
-                .addLocationRequest(locationRequest)
+                .addLocationRequest(internalLocationRequest)
 
         // 4
         val client = LocationServices.getSettingsClient(this)
         val task = client.checkLocationSettings(builder.build())
-
         // 5
         task.addOnSuccessListener {
             locationUpdateState = true
@@ -107,6 +85,32 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
                 }
             }
         }
+        internalLocationRequest
+    }
+
+    private var locationUpdateState = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.list_app_map_activity)
+
+        (supportFragmentManager.findFragmentById(R.id.list_app_map) as SupportMapFragment).getMapAsync(this)
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+    }
+
+    @SuppressLint("MissingPermission")
+    override fun onMapReady(googleMap: GoogleMap) {
+        map = googleMap
+        map.uiSettings.isZoomControlsEnabled = true
+        map.setOnMarkerClickListener(this)
+        map.mapType = GoogleMap.MAP_TYPE_NORMAL
+        //map.isMyLocationEnabled = true
+        fusedLocationClient.lastLocation.addOnSuccessListener(this) { location ->
+            if (location != null) {
+                lastLocation = location
+            }
+        }
     }
 
     private fun startLocationUpdates() {
@@ -121,10 +125,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
     }
 
     private fun placeMarkerOnMap(location: LatLng) {
-        // 1
-        val markerOptions = MarkerOptions().position(location)
-        // 2
-        map.addMarker(markerOptions)
+        map.addMarker(location.toMarkerOptions())
     }
 
     public override fun onResume() {
@@ -151,3 +152,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
 
     override fun onMarkerClick(p0: Marker?) = false
 }
+
+
+fun Location.toLatLang(): LatLng = LatLng(latitude, longitude)
+
+fun LatLng.toMarkerOptions(): MarkerOptions = MarkerOptions().position(this)
